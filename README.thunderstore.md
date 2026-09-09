@@ -19,7 +19,7 @@ The config file is `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 
 ## Recommended optional mods
 
-- [Official BepInEx ConfigurationManager](https://thunderstore.io/c/valheim/p/Azumatt/Official_BepInEx_ConfigurationManager/) — edit the settings in game instead of opening the config file.
+- [ConfigurationManager](https://thunderstore.io/c/valheim/p/shudnal/ConfigurationManager/) — edit the settings in game instead of opening the config file. It is optional.
 - [AutoPicker](https://thunderstore.io/c/valheim/p/Same/AutoPicker/) — optional compatibility; Animal Feed Guard does not require it.
 
 ## Links

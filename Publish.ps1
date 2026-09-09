@@ -1,9 +1,9 @@
 param(
     [string]$PackageFile = '',
     [string]$Repository = 'https://thunderstore.io',
-    [string]$TeamName = 'REPLACE_WITH_THUNDERSTORE_TEAM_NAME',
+    [string]$TeamName = 'DocZee',
     [string]$Community = 'valheim',
-    [string]$PackagePageUrl = 'REPLACE_WITH_THUNDERSTORE_PACKAGE_PAGE_URL'
+    [string]$PackagePageUrl = 'https://thunderstore.io/c/valheim/p/DocZee/AnimalFeedGuard/'
 )
 $ErrorActionPreference = 'Stop'
 if ($TeamName -like 'REPLACE_*' -or $PackagePageUrl -like 'REPLACE_*') {

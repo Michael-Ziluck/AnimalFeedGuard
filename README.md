@@ -55,6 +55,8 @@ Code is MIT licensed. The icon depicts Valheim's carrot item; see `ATTRIBUTION.m
 
 The plugin ID is now com.ziluck.valheim.animalfeedguard. If you tried the earlier build, remove that old DLL before installing this one. To preserve settings, rename the old com.michaelziluck.valheim.animalfeedguard.cfg to the new filename while the game is closed.
 
+If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee) is available.
+
 ## Check out my other mods
 
 - [Ranching - Chick Addon](https://thunderstore.io/c/valheim/p/DocZee/Ranching_Chick_Addon/) — adds configurable chick growth and growth percentage hover text to Ranching.

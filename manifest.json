@@ -1,0 +1,9 @@
+{
+  "name": "AnimalFeedGuard",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/Michael-Ziluck/AnimalFeedGuard",
+  "description": "Keep animal feed on the ground: prevent automatic pickup near tamed animals that can eat it. Configurable radius, manual pickup preserved, and compatible with AutoPicker's normal pickup path.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2333"
+  ]
+}

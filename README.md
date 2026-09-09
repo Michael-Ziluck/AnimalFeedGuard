@@ -40,10 +40,14 @@ Run `./Build.ps1` to compile, run checks, and produce a Thunderstore-ready ZIP. 
 ## Verification
 
 ```powershell
+# Normal verification; AutoPicker is not required or loaded.
+dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim"
+
+# Optional extra compatibility check when AutoPicker is installed:
 dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim" "PATH_TO_AUTOPICKER_DLL"
 ```
 
-Checks cover radius boundaries and diet identity, plus the actual installed game's pickup IL and AutoPicker's pickup integration. Live gameplay still needs testing: drop matching and nonmatching feed inside and outside the radius, confirm manual pickup, repeat with AutoPicker enabled and a second client, and check fed versus hungry animals. Use a disposable test world before relying on protection in a shared world.
+The normal command checks radius boundaries, diet identity, and the installed game's pickup IL. When a second path is supplied, it additionally checks AutoPicker's pickup integration. Live gameplay still needs testing: drop matching and nonmatching feed inside and outside the radius, confirm manual pickup, repeat with AutoPicker enabled and a second client, and check fed versus hungry animals. Use a disposable test world before relying on protection in a shared world.
 
 ## Credits
 

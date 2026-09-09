@@ -21,8 +21,9 @@ Copy-Item -LiteralPath $dll -Destination (Join-Path $stage "BepInEx/plugins/$ass
 $packageFiles = @('manifest.json', 'icon.png', 'README.md', 'CHANGELOG.md', 'LICENSE', 'ATTRIBUTION.md')
 if (Test-Path (Join-Path $PSScriptRoot 'THIRD_PARTY_NOTICES.md')) { $packageFiles += 'THIRD_PARTY_NOTICES.md' }
 foreach ($name in $packageFiles) {
-    if ($name -ne 'icon.png') { $null = $utf8.GetString([IO.File]::ReadAllBytes((Join-Path $PSScriptRoot $name))) }
-    Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination (Join-Path $stage $name)
+    $sourceName = if ($name -eq 'README.md') { 'README.thunderstore.md' } else { $name }
+    if ($name -ne 'icon.png') { $null = $utf8.GetString([IO.File]::ReadAllBytes((Join-Path $PSScriptRoot $sourceName))) }
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot $sourceName) -Destination (Join-Path $stage $name)
 }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $zipPath = Join-Path $OutputDirectory ("$($manifest.name)-$($manifest.version_number)-Thunderstore.zip")

@@ -30,4 +30,6 @@ The config file is `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 
 - [Ranching - Chick Addon](https://thunderstore.io/c/valheim/p/DocZee/Ranching_Chick_Addon/) — adds configurable chick growth and growth percentage hover text to Ranching.
 
+If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee) is available.
+
 Requires [BepInExPack Valheim](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/). Ranching and AutoPicker are optional.

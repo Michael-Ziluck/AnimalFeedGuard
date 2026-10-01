@@ -3,3 +3,9 @@ obj/
 .vs/
 *.user
 artifacts/
+.local/
+.ci-game/
+.ci-downloads/
+.env
+.env.*
+*.zip

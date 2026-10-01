@@ -59,6 +59,12 @@ If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee)
 
 ## Check out my other mods
 
+- [Hen Egg Pickup](https://github.com/Michael-Ziluck/HenEggPickup) — automatically collects chicken eggs once enough adult hens are nearby.
+
 - [Ranching - Chick Addon](https://thunderstore.io/c/valheim/p/DocZee/Ranching_Chick_Addon/) — adds configurable chick growth and growth percentage hover text to Ranching.
 
 
+
+## Automated builds and releases
+
+See [ci/README.md](ci/README.md) for GitHub Actions builds, versioned releases, and automatic publishing to Thunderstore and Hexium. Builds run on each commit to `main`; Hexium publishing is disabled pending team approval.

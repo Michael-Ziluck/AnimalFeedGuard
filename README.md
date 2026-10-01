@@ -43,13 +43,9 @@ Run `./Build.ps1` to compile, run checks, and produce a Thunderstore-ready ZIP. 
 
 ```powershell
 # Normal verification; AutoPicker is not required or loaded.
-
-**2.0.0 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim"
 
 # Optional extra compatibility check when AutoPicker is installed:
-
-**2.0.0 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim" "PATH_TO_AUTOPICKER_DLL"
 ```
 

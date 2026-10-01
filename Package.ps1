@@ -12,6 +12,9 @@ foreach ($dependency in $manifest.dependencies) {
 $assemblyName = (Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.csproj' | Select-Object -First 1).BaseName
 $dll = Join-Path $PSScriptRoot "bin/Release/net48/$assemblyName.dll"
 if (!(Test-Path -LiteralPath $dll)) { throw 'Build Release before packaging' }
+$assemblyVersion = [Reflection.AssemblyName]::GetAssemblyName($dll).Version.ToString(3)
+if ($assemblyVersion -ne $manifest.version_number) { throw 'Release DLL version does not match manifest.json; rebuild before packaging.' }
+
 $icon = [IO.File]::ReadAllBytes((Join-Path $PSScriptRoot 'icon.png'))
 if ([BitConverter]::ToString($icon[0..7]) -ne '89-50-4E-47-0D-0A-1A-0A') { throw 'Icon is not PNG' }
 if ([BitConverter]::ToString($icon[16..23]) -ne '00-00-01-00-00-00-01-00') { throw 'Icon must be 256x256' }

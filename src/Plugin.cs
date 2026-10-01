@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace AnimalFeedGuard;
 
-[BepInPlugin(Guid, "Animal Feed Guard", "1.0.0")]
+[BepInPlugin(Guid, "Animal Feed Guard", "2.0.0")]
 public sealed class Plugin : BaseUnityPlugin
 {
 	public const string Guid = "com.ziluck.valheim.animalfeedguard";

@@ -1,5 +1,7 @@
 # Animal Feed Guard
 
+**2.0.0 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
+
 Animal Feed Guard keeps dropped food on the ground when a living, tamed animal that can eat it is nearby. Manual pickup remains available.
 
 ## Features
@@ -28,7 +30,7 @@ The config file is `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 
 ## Check out my other mods
 
-- [Hen Egg Pickup](https://github.com/Michael-Ziluck/HenEggPickup) — automatically collects chicken eggs once enough adult hens are nearby.
+- [Hen Egg Pickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) — automatically collects chicken eggs once enough adult hens are nearby.
 
 - [Ranching - Chick Addon](https://thunderstore.io/c/valheim/p/DocZee/Ranching_Chick_Addon/) — adds configurable chick growth and growth percentage hover text to Ranching.
 

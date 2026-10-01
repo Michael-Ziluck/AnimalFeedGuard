@@ -1,10 +1,12 @@
 # Animal Feed Guard
 
+**2.0.0 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
+
 A standalone BepInEx mod for Valheim. Automatic pickup leaves dropped food alone when a living, tamed animal that can eat it is nearby. Manual pickup still works.
 
 **Client-side only:** install on each player's client. Installing only on a dedicated server does not protect players' automatic pickup. BepInEx is required; Ranching and AutoPicker are not required.
 
-**Release status:** compiled successfully and passed 20 automated feed-rule and installed-code compatibility checks. Live gameplay testing is still pending.
+**Release status:** Valheim 1.0 gameplay confirmed by the maintainer. Automated feed-rule, installed-code, and assembly-reference checks run on every build.
 
 ## Settings
 
@@ -41,9 +43,13 @@ Run `./Build.ps1` to compile, run checks, and produce a Thunderstore-ready ZIP. 
 
 ```powershell
 # Normal verification; AutoPicker is not required or loaded.
+
+**2.0.0 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim"
 
 # Optional extra compatibility check when AutoPicker is installed:
+
+**2.0.0 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim" "PATH_TO_AUTOPICKER_DLL"
 ```
 
@@ -59,7 +65,7 @@ If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee)
 
 ## Check out my other mods
 
-- [Hen Egg Pickup](https://github.com/Michael-Ziluck/HenEggPickup) — automatically collects chicken eggs once enough adult hens are nearby.
+- [Hen Egg Pickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) — automatically collects chicken eggs once enough adult hens are nearby.
 
 - [Ranching - Chick Addon](https://thunderstore.io/c/valheim/p/DocZee/Ranching_Chick_Addon/) — adds configurable chick growth and growth percentage hover text to Ranching.
 

@@ -37,16 +37,16 @@ Output: `bin/Release/net48/AnimalFeedGuard.dll`. No installation occurs during b
 
 When ready to test, exit Valheim and copy the DLL into your active mod profile's `BepInEx/plugins/AnimalFeedGuard` directory. In r2modman use the profile directory rather than the Steam installation. It has no dependency on Ranching. Remove the DLL to uninstall; no save migration is needed because it writes no world or item data.
 
-Run `./Build.ps1` to compile, run checks, and produce a Thunderstore-ready ZIP. `./Package.ps1` can also package an existing Release build. The package includes the required manifest, PNG icon and UTF-8 README at the ZIP root. The manifest links to the public GitHub repository. Builds do not install the mod.
+Run `./ci/Build.ps1` to compile, run checks, and produce a Thunderstore-ready ZIP. `./ci/Package.ps1` can also package an existing Release build. The package includes the required manifest, PNG icon and UTF-8 README at the ZIP root. The manifest links to the public GitHub repository. Builds do not install the mod.
 
 ## Verification
 
 ```powershell
 # Normal verification; AutoPicker is not required or loaded.
-dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim"
+dotnet run --project tests/checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim"
 
 # Optional extra compatibility check when AutoPicker is installed:
-dotnet run --project tests/Checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim" "PATH_TO_AUTOPICKER_DLL"
+dotnet run --project tests/checks -c Release -- "E:\Games\SteamLibrary\steamapps\common\Valheim" "PATH_TO_AUTOPICKER_DLL"
 ```
 
 The normal command checks radius boundaries, diet identity, and the installed game's pickup IL. When a second path is supplied, it additionally checks AutoPicker's pickup integration. Live gameplay still needs testing: drop matching and nonmatching feed inside and outside the radius, confirm manual pickup, repeat with AutoPicker enabled and a second client, and check fed versus hungry animals. Use a disposable test world before relying on protection in a shared world.

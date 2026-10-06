@@ -84,7 +84,7 @@ public sealed class Plugin : BaseUnityPlugin
 				if (diagnostics) Report(food, true, Describe(character, squaredDistance, position, alive, tamed));
 				return false;
 			}
-			if (diagnostics && squaredDistance < nearestDistance && FoodNames(ai.m_consumeItems).Any(candidate => FeedRules.SameFood(food, candidate)))
+			if (diagnostics && squaredDistance < nearestDistance && FeedRules.HasFood(food, FoodNames(ai.m_consumeItems)))
 			{
 				nearestDistance = squaredDistance;
 				nearest = Describe(character, squaredDistance, position, alive, tamed);

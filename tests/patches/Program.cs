@@ -48,6 +48,15 @@ internal static class Program
         Assert(rewritten.Any(i => i.operand is MethodInfo m && m.Name == "RequestOwn"), "ordinary ownership request remains");
         Assert(rewritten.Any(i => i.operand is MethodInfo m && m.Name == "Pickup"), "ordinary collection remains");
 
+        var generator = new System.Reflection.Emit.DynamicMethod("pickupLabels", typeof(void), Type.EmptyTypes).GetILGenerator();
+        var label = generator.DefineLabel();
+        var guardInstruction = new CodeInstruction(System.Reflection.Emit.OpCodes.Ldfld, flag);
+        guardInstruction.labels.Add(label);
+        guardInstruction.blocks.Add(new ExceptionBlock(ExceptionBlockType.BeginExceptionBlock));
+        var labelled = Rewrite(transpiler, new[] { guardInstruction }).Single();
+        Assert(labelled.labels.Single() == label, "replacement retains branch labels");
+        Assert(labelled.blocks.Single().blockType == ExceptionBlockType.BeginExceptionBlock, "replacement retains exception boundaries");
+
         Reject(transpiler, Array.Empty<CodeInstruction>(), "missing pickup guard rejected");
         Reject(transpiler, new[] { new CodeInstruction(System.Reflection.Emit.OpCodes.Ldfld, flag), new CodeInstruction(System.Reflection.Emit.OpCodes.Ldfld, flag) }, "ambiguous pickup guards rejected");
         System.Console.WriteLine($"PASS: {checks} actual game-IL patch checks. Unity and live pickup behavior are not exercised.");

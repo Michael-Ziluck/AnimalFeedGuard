@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -24,6 +25,19 @@ Check(FeedRules.SameFood("$mod_customfeed", "$mod_customfeed"), "modded food ide
 Check(!FeedRules.SameFood("$item_carrot", "$item_barley"), "wrong animal diet does not match");
 Check(!FeedRules.SameFood(null, null), "missing food is not protected");
 Check(!FeedRules.SameFood("", ""), "empty food is not protected");
+Check(!FeedRules.SameFood("$item_barley", "$ITEM_BARLEY"), "food identity is case sensitive");
+Check(FeedRules.Protects(true, true, 0, 5, "$item_barley", new string?[] { null, "", "$item_barley" }), "missing diet entries do not hide matching feed");
+int dietVisits = 0;
+IEnumerable<string?> ObservedDiet()
+{
+    dietVisits++;
+    yield return "$item_barley";
+    throw new Exception("diet was enumerated after a match");
+}
+Check(!FeedRules.Protects(false, true, 0, 5, "$item_barley", ObservedDiet()) && dietVisits == 0, "dead animals do not enumerate their diet");
+Check(!FeedRules.Protects(true, false, 0, 5, "$item_barley", ObservedDiet()) && dietVisits == 0, "wild animals do not enumerate their diet");
+Check(!FeedRules.Protects(true, true, 26, 5, "$item_barley", ObservedDiet()) && dietVisits == 0, "distant animals do not enumerate their diet");
+Check(FeedRules.Protects(true, true, 0, 5, "$item_barley", ObservedDiet()) && dietVisits == 1, "diet matching stops at the first match");
 
 // This matrix was extracted from the installed 1.0.16 prefab assets, rather
 // than guessed from player-food categories or a species whitelist.

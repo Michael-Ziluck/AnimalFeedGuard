@@ -143,8 +143,8 @@ public sealed class Plugin : BaseUnityPlugin
 			MonsterAI ai = character.GetComponent<MonsterAI>();
 			if (ai) animals.Add(new FeedingAnimal(character, ai));
 		}
-		// Only component discovery is cached. Tameness, life, position, and diet
-		// are rechecked for each item, so a stale snapshot cannot allow pickup.
+	// Component discovery is cached for one frame; life, tameness, position,
+	// and diet are rechecked for each drop.
 	}
 
 	[HarmonyPatch(typeof(Player), "AutoPickup")]

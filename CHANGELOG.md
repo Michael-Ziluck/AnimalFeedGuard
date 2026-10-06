@@ -1,10 +1,11 @@
 # Changelog
 
-## Unreleased
+## 2.0.3 - 2026-10-06
 
 - Share food matching between protection and pickup diagnostics.
 - Add simulated filter checks and tests for diet enumeration, branch labels, and exception boundaries.
 - Include every check project in dependency updates.
+- Maintainer confirmed the current build works as intended in game.
 
 ## 2.0.2
 

@@ -1,6 +1,6 @@
 # Animal Feed Guard
 
-**2.0.2 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
+**2.0.3 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 
 Animal Feed Guard keeps dropped food on the ground when a living, tamed animal that can eat it is nearby. Manual pickup remains available.
 
@@ -34,11 +34,11 @@ These are audited game defaults, not hardcoded lists. Modded additions to an ani
 
 ## Testing and diagnostics
 
-Import the test ZIP into a separate Gale profile, replacing the old AnimalFeedGuard DLL. Confirm an empty inventory slot is available when testing; otherwise failure to collect does not prove protection. Compare matching and nonmatching food inside/outside the radius, then repeat with the mod disabled and with AutoPicker enabled.
+For regression tests, import the ZIP into a separate Gale profile, replacing the old AnimalFeedGuard DLL. Confirm an empty inventory slot is available when testing; otherwise failure to collect does not prove protection. Compare matching and nonmatching food inside/outside the radius, then repeat with the mod disabled and with AutoPicker enabled.
 
 For the Asksvin test, drop Smokepuffs beside adult tamed Asksvin and run over them. Enable **Diagnostics → Log Pickup Decisions** in ConfigurationManager (or the config file) to log the protection decision, body/origin distances, and synchronized tame state in `BepInEx/LogOutput.log`. Turn logging off after the test. Logging is rate-limited per food and outcome and does not write to saves.
 
-Automated coverage passed. The reported Smokepuff was 7.67 metres from the Asksvin's body, outside the former 5-metre radius. Full live regression testing remains pending. Manual pickup is deliberately allowed. Another player's unmodified client, or a mod that directly inserts items into an inventory, can still collect the feed.
+Automated coverage passed. The reported Smokepuff was 7.67 metres from the Asksvin's body, outside the former 5-metre radius. The maintainer has tested the current build and confirmed it works as intended. Manual pickup is deliberately allowed. Another player's unmodified client, or a mod that directly inserts items into an inventory, can still collect the feed.
 
 ## Configuration
 

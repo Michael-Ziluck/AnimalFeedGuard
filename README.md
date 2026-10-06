@@ -1,12 +1,12 @@
 # Animal Feed Guard
 
-**2.0.1 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
+**2.0.2 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 
 A standalone BepInEx mod for Valheim. Automatic pickup leaves dropped food alone when a living, tamed animal that can eat it is nearby. Manual pickup still works.
 
 **Client-side only:** install on each player's client. Installing only on a dedicated server does not protect players' automatic pickup. BepInEx is required; Ranching and AutoPicker are not required.
 
-**Release status:** The previous release was tested by the maintainer. The 2.0.1 distance and synchronized tame-state fixes are prepared for testing; live verification is pending. Automated checks cover all 48 food combinations extracted from installed 1.0.16 assets, actual pickup IL, and assembly references.
+**Release status:** Prepared for testing. Pickup diagnostics identified the reported Asksvin Smokepuff case as outside the former 5-metre radius; the default is now 25 metres. Automated checks cover all 48 food combinations extracted from installed 1.0.16 assets, actual pickup IL, and assembly references. Full live regression testing remains pending.
 
 ## Creature and food coverage
 
@@ -31,7 +31,7 @@ Import the test ZIP into a separate Gale profile, replacing the old AnimalFeedGu
 
 For the Asksvin test, drop Smokepuffs beside adult tamed Asksvin and run over them. Enable **Diagnostics → Log Pickup Decisions** in ConfigurationManager (or the config file) to log the protection decision, body/origin distances, and synchronized tame state in `BepInEx/LogOutput.log`. Turn logging off after the test. Logging is rate-limited per food and outcome and does not write to saves.
 
-Automated coverage passed; the exact cause of the reported live failure remains unconfirmed until the new build is tested. Manual pickup is deliberately allowed. Another player's unmodified client, or a mod that directly inserts items into an inventory, can still collect the feed.
+Automated coverage passed. The reported Smokepuff was 7.67 metres from the Asksvin's body, outside the former 5-metre radius. Full live regression testing remains pending. Manual pickup is deliberately allowed. Another player's unmodified client, or a mod that directly inserts items into an inventory, can still collect the feed.
 
 ## Settings
 
@@ -40,8 +40,10 @@ Generated file: `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 | Setting | Default | Meaning |
 | --- | --- | --- |
 | Enabled | true | Enable protection during automatic pickup. |
-| Protection Radius | 5 | Metres from the dropped item to the animal's body, configurable from 0 to 50. Zero disables protection. |
+| Protection Radius | 25 | Metres from the dropped item to the animal's body, configurable from 0 to 50. Zero disables protection. |
 | Log Pickup Decisions | false | Optional, rate-limited diagnostic log of protection decisions. |
+
+Existing configs retain their saved radius when upgrading. Set `Protection Radius = 25` to adopt the new default.
 
 Animals need not be hungry. Wild animals and animals still being tamed do not qualify. Food means anything in the animal's actual consume list, not just food players can eat: seeds, barley and modded feeds qualify when listed by the animal. Distance is measured in 3D from the item to the nearest point on the animal's body collider (falling back to its origin when no active collider is available), without a wall or line-of-sight check. One eligible animal is enough to protect the stack.
 

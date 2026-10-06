@@ -24,6 +24,10 @@ Installed AutoPicker's loop calls `Pickable.Interact` and does not directly call
 
 The radius/state changes address identified weaknesses, but static inspection does not establish which caused the reported live failure. Optional diagnostics report the food identity, matching creature, body/origin distances, and alive/tamed flags so the new test can resolve that uncertainty. They do not execute pickup or change network state.
 
+### Live diagnostic follow-up
+
+The user's 2.0.1 log reports a Smokepuff allowed at a body distance of 7.67 metres (origin distance 8.79 metres), with the Asksvin alive and tamed and a configured radius of 5 metres. This explains that pickup decision: the food was outside the configured radius. Version 2.0.2 raises the default to 25 metres; existing configs retain their explicitly saved values. Full live regression coverage is still pending.
+
 ## Verification limits
 
 Automated checks exercise every audited food pair, all cross-diet mismatches, wild/dead/out-of-range/disabled cases, the actual installed pickup IL and transpiler, and framework/game member references. An optional AutoPicker audit reads its installed DLL; it is required neither for building nor running the mod. Physics collider calculations, live ownership transfer, and multiplayer pickup still need in-game testing.

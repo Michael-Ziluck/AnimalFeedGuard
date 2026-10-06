@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace AnimalFeedGuard;
 
-[BepInPlugin(Guid, "AnimalFeedGuard", "2.0.1")]
+[BepInPlugin(Guid, "AnimalFeedGuard", "2.0.2")]
 public sealed class Plugin : BaseUnityPlugin
 {
 	public const string Guid = "com.ziluck.valheim.animalfeedguard";
@@ -34,7 +34,7 @@ public sealed class Plugin : BaseUnityPlugin
 	{
 		log = Logger;
 		protectionEnabled = Config.Bind("General", "Enabled", true, "Leave edible animal feed on the ground near tamed animals during automatic pickup. Manual pickup is unaffected.");
-		radius = Config.Bind("General", "Protection Radius", 5f, new ConfigDescription("Maximum distance in metres from the dropped item to the nearest point on a living tamed animal's body collider (or its origin if no active collider is available). 0 disables protection. Includes animals that are already fed. Uses full 3D distance, without a line-of-sight requirement.", new AcceptableValueRange<float>(0f, 50f)));
+		radius = Config.Bind("General", "Protection Radius", 25f, new ConfigDescription("Maximum distance in metres from the dropped item to the nearest point on a living tamed animal's body collider (or its origin if no active collider is available). 0 disables protection. Includes animals that are already fed. Uses full 3D distance, without a line-of-sight requirement.", new AcceptableValueRange<float>(0f, 50f)));
 		diagnosticLogging = Config.Bind("Diagnostics", "Log Pickup Decisions", false, "Log automatic pickup decisions and the nearest diet-matching creature's distance and tame state. Useful for testing pickup conflicts; messages for the same food and outcome are limited to once every five seconds.");
 		try
 		{

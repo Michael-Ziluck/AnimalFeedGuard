@@ -1,6 +1,6 @@
 {
   "name": "AnimalFeedGuard",
-  "version_number": "2.0.1",
+  "version_number": "2.0.2",
   "website_url": "https://github.com/Michael-Ziluck/AnimalFeedGuard",
   "description": "Keep animal feed on the ground: prevent automatic pickup near tamed animals that can eat it. Configurable radius, manual pickup preserved, and compatible with AutoPicker's normal pickup path.",
   "dependencies": [

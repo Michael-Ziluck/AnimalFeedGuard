@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.2
+
+- Increase the default feed protection radius from 5 to 25 metres.
+- Preserve existing configured radii; set Protection Radius to 25 to use the new default with an existing config.
+
 ## 2.0.1
 
 - Measure feed protection from the animal's body collider instead of its origin, with an origin fallback.

@@ -1,12 +1,12 @@
 # Animal Feed Guard
 
-**2.0.1 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
+**2.0.2 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 
 Animal Feed Guard keeps dropped food on the ground when a living, tamed animal that can eat it is nearby. Manual pickup remains available.
 
 ## Features
 
-- Configurable protection radius: 0-50 metres; default 5 metres.
+- Configurable protection radius: 0-50 metres; default 25 metres.
 - Uses each animal's live food list, including Asksvin Smokepuffs, Deep North feeds, seeds, barley, and modded feed.
 - Measures distance to the animal's body, so a large animal's origin does not leave nearby feed unprotected.
 - Reads synchronized tameness through ownership changes.
@@ -38,13 +38,15 @@ Import the test ZIP into a separate Gale profile, replacing the old AnimalFeedGu
 
 For the Asksvin test, drop Smokepuffs beside adult tamed Asksvin and run over them. Enable **Diagnostics → Log Pickup Decisions** in ConfigurationManager (or the config file) to log the protection decision, body/origin distances, and synchronized tame state in `BepInEx/LogOutput.log`. Turn logging off after the test. Logging is rate-limited per food and outcome and does not write to saves.
 
-Automated coverage passed; the exact cause of the reported live failure remains unconfirmed until the new build is tested. Manual pickup is deliberately allowed. Another player's unmodified client, or a mod that directly inserts items into an inventory, can still collect the feed.
+Automated coverage passed. The reported Smokepuff was 7.67 metres from the Asksvin's body, outside the former 5-metre radius. Full live regression testing remains pending. Manual pickup is deliberately allowed. Another player's unmodified client, or a mod that directly inserts items into an inventory, can still collect the feed.
 
 ## Configuration
 
 The config file is `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 
 `Enabled` controls the feature. `Protection Radius` controls the distance from the dropped item to the nearest point on an eligible tamed animal's body collider. This handles large animals such as Asksvin, lox, and moose. A radius of `0` disables protection.
+
+The default is 25 metres. Existing configs retain their saved radius when upgrading; set `Protection Radius = 25` to adopt the new default.
 
 ## Recommended optional mods
 

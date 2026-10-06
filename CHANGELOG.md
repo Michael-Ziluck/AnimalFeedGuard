@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Share food matching between protection and pickup diagnostics.
+- Add simulated filter checks and tests for diet enumeration, branch labels, and exception boundaries.
+- Include every check project in dependency updates.
+
 ## 2.0.2
 
 - Increase the default feed protection radius from 5 to 25 metres.

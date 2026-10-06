@@ -79,6 +79,8 @@ dotnet run --project tests/checks -c Release -- "E:\Games\SteamLibrary\steamapps
 
 The normal command checks radius boundaries, diet identity, and the installed game's pickup IL. When a second path is supplied, it additionally checks AutoPicker's pickup integration. Live gameplay still needs testing: drop matching and nonmatching feed inside and outside the radius, confirm manual pickup, repeat with AutoPicker enabled and a second client, and check fed versus hungry animals. Use a disposable test world before relying on protection in a shared world.
 
+`./ci/Build.ps1` also runs the production filter and Harmony patch against simulated game objects. These checks cover live-state changes within a cached frame, synchronized tameness, collider selection, configuration changes, and diagnostic rate limiting. They do not run Unity physics or multiplayer.
+
 ## Credits
 
 Code is MIT licensed. The icon depicts Valheim's carrot item; see `ATTRIBUTION.md` for the image source and separate artwork attribution.
@@ -90,11 +92,8 @@ If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee)
 ## Check out my other mods
 
 - [HenEggPickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) - automatically collects chicken eggs once enough adult hens are nearby.
-
 - [RanchingAddon](https://github.com/Michael-Ziluck/RanchingAddon) - adds skill-scaled chick and Asksvin hatchling growth, plus growth and egg incubation information to Ranching.
-
-
 
 ## Automated builds and releases
 
-See [ci/README.md](ci/README.md) for GitHub Actions builds, versioned releases, and automatic publishing to Thunderstore and Hexium. Builds run on each commit to `main`. This test change remains on a pull request and does not trigger publishing.
+See [ci/README.md](ci/README.md) for GitHub Actions builds, versioned releases, and automatic publishing to Thunderstore and Hexium. Pull requests run build checks. Publishing jobs run from `main` when the corresponding repository variable is enabled.

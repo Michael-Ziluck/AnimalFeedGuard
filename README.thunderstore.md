@@ -60,7 +60,6 @@ The default is 25 metres. Existing configs retain their saved radius when upgrad
 ## Check out my other mods
 
 - [HenEggPickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) - automatically collects chicken eggs once enough adult hens are nearby.
-
 - [RanchingAddon](https://github.com/Michael-Ziluck/RanchingAddon) - adds skill-scaled chick and Asksvin hatchling growth, plus growth and egg incubation information to Ranching.
 
 If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee) is available.

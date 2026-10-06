@@ -10,7 +10,7 @@ A standalone BepInEx mod for Valheim. Automatic pickup leaves dropped food alone
 
 ## Creature and food coverage
 
-The audit read all 150 MonsterAI components in the installed 1.0.16 asset bundle. Fourteen have nonempty diets, totaling 48 creature/food combinations (including juvenile and summoned variants). Protection uses live consume lists, with no species or biome whitelist. See [the audit](https://github.com/Michael-Ziluck/AnimalFeedGuard/blob/fix/tamed-feed-protection/docs/feeding-audit.md).
+The audit read all 150 MonsterAI components in the installed 1.0.16 asset bundle. Fourteen have nonempty diets, totaling 48 creature/food combinations (including juvenile and summoned variants). Protection uses live consume lists, with no species or biome whitelist. See [the audit](https://github.com/Michael-Ziluck/AnimalFeedGuard/blob/75c0c1573911dfd6652903e98d6ea0886fdc1241/docs/feeding-audit.md).
 
 | Creature | Feed found in installed assets |
 | --- | --- |
@@ -87,9 +87,9 @@ If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee)
 
 ## Check out my other mods
 
-- [Hen Egg Pickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) â€” automatically collects chicken eggs once enough adult hens are nearby.
+- [HenEggPickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) - automatically collects chicken eggs once enough adult hens are nearby.
 
-- [RanchingChickAddon](https://thunderstore.io/c/valheim/p/DocZee/RanchingChickAddon/) â€” adds configurable chick growth and growth percentage hover text to Ranching.
+- [RanchingAddon](https://github.com/Michael-Ziluck/RanchingAddon) - adds skill-scaled chick and Asksvin hatchling growth, plus growth and egg incubation information to Ranching.
 
 
 

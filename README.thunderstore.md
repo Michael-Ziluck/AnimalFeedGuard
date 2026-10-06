@@ -6,7 +6,7 @@ Animal Feed Guard keeps dropped food on the ground when a living, tamed animal t
 
 ## Features
 
-- Configurable protection radius: 0â€“50 metres; default 5 metres.
+- Configurable protection radius: 0-50 metres; default 5 metres.
 - Uses each animal's live food list, including Asksvin Smokepuffs, Deep North feeds, seeds, barley, and modded feed.
 - Measures distance to the animal's body, so a large animal's origin does not leave nearby feed unprotected.
 - Reads synchronized tameness through ownership changes.
@@ -17,7 +17,7 @@ Animal Feed Guard keeps dropped food on the ground when a living, tamed animal t
 
 ## Creature and food coverage
 
-The audit read all 150 MonsterAI components in the installed 1.0.16 asset bundle. Fourteen have nonempty diets, totaling 48 creature/food combinations (including juvenile and summoned variants). Protection uses live consume lists, with no species or biome whitelist. See [the audit](https://github.com/Michael-Ziluck/AnimalFeedGuard/blob/fix/tamed-feed-protection/docs/feeding-audit.md).
+The audit read all 150 MonsterAI components in the installed 1.0.16 asset bundle. Fourteen have nonempty diets, totaling 48 creature/food combinations (including juvenile and summoned variants). Protection uses live consume lists, with no species or biome whitelist. See [the audit](https://github.com/Michael-Ziluck/AnimalFeedGuard/blob/75c0c1573911dfd6652903e98d6ea0886fdc1241/docs/feeding-audit.md).
 
 | Creature | Feed found in installed assets |
 | --- | --- |
@@ -48,8 +48,8 @@ The config file is `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 
 ## Recommended optional mods
 
-- [ConfigurationManager](https://thunderstore.io/c/valheim/p/shudnal/ConfigurationManager/) â€” edit the settings in game instead of opening the config file. It is optional.
-- [AutoPicker](https://thunderstore.io/c/valheim/p/Same/AutoPicker/) â€” optional compatibility; Animal Feed Guard does not require it.
+- [ConfigurationManager](https://thunderstore.io/c/valheim/p/shudnal/ConfigurationManager/) - edit the settings in game instead of opening the config file. It is optional.
+- [AutoPicker](https://thunderstore.io/c/valheim/p/Same/AutoPicker/) - optional compatibility; Animal Feed Guard does not require it.
 
 ## Links
 
@@ -57,9 +57,9 @@ The config file is `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 
 ## Check out my other mods
 
-- [Hen Egg Pickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) â€” automatically collects chicken eggs once enough adult hens are nearby.
+- [HenEggPickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) - automatically collects chicken eggs once enough adult hens are nearby.
 
-- [RanchingChickAddon](https://thunderstore.io/c/valheim/p/DocZee/RanchingChickAddon/) â€” adds configurable chick growth and growth percentage hover text to Ranching.
+- [RanchingAddon](https://github.com/Michael-Ziluck/RanchingAddon) - adds skill-scaled chick and Asksvin hatchling growth, plus growth and egg incubation information to Ranching.
 
 If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee) is available.
 

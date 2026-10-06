@@ -54,6 +54,8 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
           queries: security-extended
+          # Keep downloaded Mono web.config files outside the C# source tree.
+          source-root: ${{ matrix.language == 'csharp' && 'src' || '.' }}
       - name: Build production code with its real dependencies
         if: matrix.language == 'csharp'
         shell: pwsh

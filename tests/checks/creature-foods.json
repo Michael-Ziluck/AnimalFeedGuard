@@ -1,0 +1,283 @@
+{
+  "gameVersion": "1.0.16",
+  "assemblySha256": "96CFC004F7F4A6F30D070BEF39EAFD79C466A137121C4665A2F19FB9C15C6127",
+  "source": "Installed SoftRef bundle c4210710; all MonsterAI components with nonempty diets.",
+  "creatures": [
+    {
+      "creature": "Boar_spiritcaller",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Carrot",
+          "sharedName": "$item_carrot"
+        },
+        {
+          "prefab": "Turnip",
+          "sharedName": "$item_turnip"
+        },
+        {
+          "prefab": "Onion",
+          "sharedName": "$item_onion"
+        },
+        {
+          "prefab": "Mushroom",
+          "sharedName": "$item_mushroomcommon"
+        },
+        {
+          "prefab": "Raspberry",
+          "sharedName": "$item_raspberries"
+        },
+        {
+          "prefab": "Blueberries",
+          "sharedName": "$item_blueberries"
+        }
+      ]
+    },
+    {
+      "creature": "Moose",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Lingonberry",
+          "sharedName": "$item_lingonberries"
+        }
+      ]
+    },
+    {
+      "creature": "Unbjorn",
+      "tameable": false,
+      "foods": [
+        {
+          "prefab": "Blueberries",
+          "sharedName": "$item_blueberries"
+        }
+      ]
+    },
+    {
+      "creature": "Lox",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Cloudberry",
+          "sharedName": "$item_cloudberries"
+        },
+        {
+          "prefab": "Barley",
+          "sharedName": "$item_barley"
+        },
+        {
+          "prefab": "Flax",
+          "sharedName": "$item_flax"
+        }
+      ]
+    },
+    {
+      "creature": "Wolf",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "NeckTail",
+          "sharedName": "$item_necktail"
+        },
+        {
+          "prefab": "RawMeat",
+          "sharedName": "$item_boar_meat"
+        },
+        {
+          "prefab": "LoxMeat",
+          "sharedName": "$item_loxmeat"
+        },
+        {
+          "prefab": "Sausages",
+          "sharedName": "$item_sausages"
+        },
+        {
+          "prefab": "FishRaw",
+          "sharedName": "$item_fish_raw"
+        },
+        {
+          "prefab": "DeerMeat",
+          "sharedName": "$item_deer_meat"
+        },
+        {
+          "prefab": "ChickenMeat",
+          "sharedName": "$item_chicken_meat"
+        }
+      ]
+    },
+    {
+      "creature": "Moose_spiritcaller",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Lingonberry",
+          "sharedName": "$item_lingonberries"
+        }
+      ]
+    },
+    {
+      "creature": "Wolf_spiritcaller",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "NeckTail",
+          "sharedName": "$item_necktail"
+        },
+        {
+          "prefab": "RawMeat",
+          "sharedName": "$item_boar_meat"
+        },
+        {
+          "prefab": "LoxMeat",
+          "sharedName": "$item_loxmeat"
+        },
+        {
+          "prefab": "Sausages",
+          "sharedName": "$item_sausages"
+        },
+        {
+          "prefab": "FishRaw",
+          "sharedName": "$item_fish_raw"
+        },
+        {
+          "prefab": "DeerMeat",
+          "sharedName": "$item_deer_meat"
+        },
+        {
+          "prefab": "ChickenMeat",
+          "sharedName": "$item_chicken_meat"
+        }
+      ]
+    },
+    {
+      "creature": "Bjorn_sleeping",
+      "tameable": false,
+      "foods": [
+        {
+          "prefab": "Blueberries",
+          "sharedName": "$item_blueberries"
+        }
+      ]
+    },
+    {
+      "creature": "Asksvin_hatchling",
+      "tameable": false,
+      "foods": [
+        {
+          "prefab": "Cloudberry",
+          "sharedName": "$item_cloudberries"
+        },
+        {
+          "prefab": "Barley",
+          "sharedName": "$item_barley"
+        },
+        {
+          "prefab": "Flax",
+          "sharedName": "$item_flax"
+        }
+      ]
+    },
+    {
+      "creature": "Bjorn",
+      "tameable": false,
+      "foods": [
+        {
+          "prefab": "Blueberries",
+          "sharedName": "$item_blueberries"
+        }
+      ]
+    },
+    {
+      "creature": "Boar",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Carrot",
+          "sharedName": "$item_carrot"
+        },
+        {
+          "prefab": "Turnip",
+          "sharedName": "$item_turnip"
+        },
+        {
+          "prefab": "Onion",
+          "sharedName": "$item_onion"
+        },
+        {
+          "prefab": "Mushroom",
+          "sharedName": "$item_mushroomcommon"
+        },
+        {
+          "prefab": "Raspberry",
+          "sharedName": "$item_raspberries"
+        },
+        {
+          "prefab": "Blueberries",
+          "sharedName": "$item_blueberries"
+        }
+      ]
+    },
+    {
+      "creature": "Asksvin",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Vineberry",
+          "sharedName": "$item_vineberry"
+        },
+        {
+          "prefab": "Fiddleheadfern",
+          "sharedName": "$item_fiddleheadfern"
+        },
+        {
+          "prefab": "MushroomSmokePuff",
+          "sharedName": "$item_smokepuff"
+        }
+      ]
+    },
+    {
+      "creature": "Bjorn_spiritcaller",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Blueberries",
+          "sharedName": "$item_blueberries"
+        }
+      ]
+    },
+    {
+      "creature": "Hen",
+      "tameable": true,
+      "foods": [
+        {
+          "prefab": "Dandelion",
+          "sharedName": "$item_dandelion"
+        },
+        {
+          "prefab": "Barley",
+          "sharedName": "$item_barley"
+        },
+        {
+          "prefab": "BeechSeeds",
+          "sharedName": "$item_beechseeds"
+        },
+        {
+          "prefab": "BirchSeeds",
+          "sharedName": "$item_birchseeds"
+        },
+        {
+          "prefab": "CarrotSeeds",
+          "sharedName": "$item_carrotseeds"
+        },
+        {
+          "prefab": "OnionSeeds",
+          "sharedName": "$item_onionseeds"
+        },
+        {
+          "prefab": "TurnipSeeds",
+          "sharedName": "$item_turnipseeds"
+        }
+      ]
+    }
+  ]
+}

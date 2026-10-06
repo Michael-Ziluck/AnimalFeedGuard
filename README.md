@@ -1,12 +1,37 @@
 # Animal Feed Guard
 
-**2.0.0 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
+**2.0.1 targets Valheim 1.0**, built and checked against 1.0.16. Use the 1.x releases for Ashlands.
 
 A standalone BepInEx mod for Valheim. Automatic pickup leaves dropped food alone when a living, tamed animal that can eat it is nearby. Manual pickup still works.
 
 **Client-side only:** install on each player's client. Installing only on a dedicated server does not protect players' automatic pickup. BepInEx is required; Ranching and AutoPicker are not required.
 
-**Release status:** Valheim 1.0 gameplay confirmed by the maintainer. Automated feed-rule, installed-code, and assembly-reference checks run on every build.
+**Release status:** The previous release was tested by the maintainer. The 2.0.1 distance and synchronized tame-state fixes are prepared for testing; live verification is pending. Automated checks cover all 48 food combinations extracted from installed 1.0.16 assets, actual pickup IL, and assembly references.
+
+## Creature and food coverage
+
+The audit read all 150 MonsterAI components in the installed 1.0.16 asset bundle. Fourteen have nonempty diets, totaling 48 creature/food combinations (including juvenile and summoned variants). Protection uses live consume lists, with no species or biome whitelist. See [the audit](https://github.com/Michael-Ziluck/AnimalFeedGuard/blob/fix/tamed-feed-protection/docs/feeding-audit.md).
+
+| Creature | Feed found in installed assets |
+| --- | --- |
+| Asksvin | Smokepuffs, vineberries, fiddleheads |
+| Asksvin hatchling | Cloudberries, barley, flax; only qualifies if tamed |
+| Hen | Dandelions, barley, beech/birch/carrot/onion/turnip seeds |
+| Boar and summoned boar | Carrots, turnips, onions, mushrooms, raspberries, blueberries |
+| Wolf and summoned wolf | Neck tails, boar/lox/deer/chicken meat, sausages, raw fish |
+| Lox | Cloudberries, barley, flax |
+| Deep North moose and summoned moose | Lingonberries |
+| Deep North bear variants | Blueberries; only qualifies if tamed (including the summoned bear) |
+
+These are audited game defaults, not hardcoded lists. Modded additions to an animal's consume list are also recognized. Creatures without any feeding behavior do not protect arbitrary items.
+
+## Testing and diagnostics
+
+Import the test ZIP into a separate Gale profile, replacing the old AnimalFeedGuard DLL. Confirm an empty inventory slot is available when testing; otherwise failure to collect does not prove protection. Compare matching and nonmatching food inside/outside the radius, then repeat with the mod disabled and with AutoPicker enabled.
+
+For the Asksvin test, drop Smokepuffs beside adult tamed Asksvin and run over them. Enable **Diagnostics → Log Pickup Decisions** in ConfigurationManager (or the config file) to log the protection decision, body/origin distances, and synchronized tame state in `BepInEx/LogOutput.log`. Turn logging off after the test. Logging is rate-limited per food and outcome and does not write to saves.
+
+Automated coverage passed; the exact cause of the reported live failure remains unconfirmed until the new build is tested. Manual pickup is deliberately allowed. Another player's unmodified client, or a mod that directly inserts items into an inventory, can still collect the feed.
 
 ## Settings
 
@@ -15,9 +40,10 @@ Generated file: `BepInEx/config/com.ziluck.valheim.animalfeedguard.cfg`.
 | Setting | Default | Meaning |
 | --- | --- | --- |
 | Enabled | true | Enable protection during automatic pickup. |
-| Protection Radius | 5 | Metres from the dropped item to the animal, configurable from 0 to 50. Zero disables protection. |
+| Protection Radius | 5 | Metres from the dropped item to the animal's body, configurable from 0 to 50. Zero disables protection. |
+| Log Pickup Decisions | false | Optional, rate-limited diagnostic log of protection decisions. |
 
-Animals need not be hungry. Wild animals and animals still being tamed do not qualify. Food means anything in the animal's actual consume list, not just food players can eat: seeds, barley and modded feeds qualify when listed by the animal. Distance is measured in 3D, including height, without a wall or line-of-sight check. One eligible animal is enough to protect the stack.
+Animals need not be hungry. Wild animals and animals still being tamed do not qualify. Food means anything in the animal's actual consume list, not just food players can eat: seeds, barley and modded feeds qualify when listed by the animal. Distance is measured in 3D from the item to the nearest point on the animal's body collider (falling back to its origin when no active collider is available), without a wall or line-of-sight check. One eligible animal is enough to protect the stack.
 
 Only locally loaded animals can be detected. Settings are local to each player. Every player who should avoid automatically collecting feed needs the mod installed; a host installation does not protect against another player's unmodified client.
 
@@ -35,7 +61,7 @@ dotnet build -c Release -p:GamePath="E:\Games\SteamLibrary\steamapps\common\Valh
 
 Output: `bin/Release/net48/AnimalFeedGuard.dll`. No installation occurs during build. Requires a .NET SDK, local Valheim and BepInEx 5 assemblies; .NET Framework 4.8 reference assemblies restore from NuGet. No publicized game assemblies are required.
 
-When ready to test, exit Valheim and copy the DLL into your active mod profile's `BepInEx/plugins/AnimalFeedGuard` directory. In r2modman use the profile directory rather than the Steam installation. It has no dependency on Ranching. Remove the DLL to uninstall; no save migration is needed because it writes no world or item data.
+When ready to test, exit Valheim and copy the DLL into your active mod profile's `BepInEx/plugins/AnimalFeedGuard` directory. In Gale, use the active profile directory rather than the Steam installation. It has no dependency on Ranching. Remove the DLL to uninstall; no save migration is needed because it writes no world or item data.
 
 Run `./ci/Build.ps1` to compile, run checks, and produce a Thunderstore-ready ZIP. `./ci/Package.ps1` can also package an existing Release build. The package includes the required manifest, PNG icon and UTF-8 README at the ZIP root. The manifest links to the public GitHub repository. Builds do not install the mod.
 
@@ -61,12 +87,12 @@ If you'd like to support ongoing modding work, [Ko-fi](https://ko-fi.com/doczee)
 
 ## Check out my other mods
 
-- [Hen Egg Pickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) — automatically collects chicken eggs once enough adult hens are nearby.
+- [Hen Egg Pickup](https://thunderstore.io/c/valheim/p/DocZee/HenEggPickup/) â€” automatically collects chicken eggs once enough adult hens are nearby.
 
-- [RanchingChickAddon](https://thunderstore.io/c/valheim/p/DocZee/RanchingChickAddon/) — adds configurable chick growth and growth percentage hover text to Ranching.
+- [RanchingChickAddon](https://thunderstore.io/c/valheim/p/DocZee/RanchingChickAddon/) â€” adds configurable chick growth and growth percentage hover text to Ranching.
 
 
 
 ## Automated builds and releases
 
-See [ci/README.md](ci/README.md) for GitHub Actions builds, versioned releases, and automatic publishing to Thunderstore and Hexium. Builds run on each commit to `main`; Hexium publishing is disabled pending team approval.
+See [ci/README.md](ci/README.md) for GitHub Actions builds, versioned releases, and automatic publishing to Thunderstore and Hexium. Builds run on each commit to `main`. This test change remains on a pull request and does not trigger publishing.

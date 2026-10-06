@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using AnimalFeedGuard;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -23,6 +24,38 @@ Check(FeedRules.SameFood("$mod_customfeed", "$mod_customfeed"), "modded food ide
 Check(!FeedRules.SameFood("$item_carrot", "$item_barley"), "wrong animal diet does not match");
 Check(!FeedRules.SameFood(null, null), "missing food is not protected");
 Check(!FeedRules.SameFood("", ""), "empty food is not protected");
+
+// This matrix was extracted from the installed 1.0.16 prefab assets, rather
+// than guessed from player-food categories or a species whitelist.
+using var fixture = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "creature-foods.json")));
+var creatures = fixture.RootElement.GetProperty("creatures").EnumerateArray().ToArray();
+var allFoods = creatures.SelectMany(c => c.GetProperty("foods").EnumerateArray())
+    .Select(f => f.GetProperty("sharedName").GetString()!).Distinct().ToArray();
+int dietPairs = 0;
+foreach (var creature in creatures)
+{
+    string name = creature.GetProperty("creature").GetString()!;
+    string[] diet = creature.GetProperty("foods").EnumerateArray().Select(f => f.GetProperty("sharedName").GetString()!).ToArray();
+    foreach (string food in diet)
+    {
+        dietPairs++;
+        Check(FeedRules.Protects(true, true, 0, 5, food, diet), $"{name} protects {food} beside its body");
+        Check(FeedRules.Protects(true, true, 25, 5, food, diet), $"{name} protects {food} at the radius boundary");
+        Check(!FeedRules.Protects(true, true, 25.01f, 5, food, diet), $"{name} allows {food} outside the radius");
+        Check(!FeedRules.Protects(true, false, 0, 5, food, diet), $"wild {name} does not protect {food}");
+        Check(!FeedRules.Protects(false, true, 0, 5, food, diet), $"dead {name} does not protect {food}");
+        Check(!FeedRules.Protects(true, true, 0, 0, food, diet), $"zero radius disables protection for {name}");
+    }
+    foreach (string food in allFoods)
+        Check(FeedRules.Protects(true, true, 0, 5, food, diet) == diet.Contains(food), $"{name} matches its diet exactly for {food}");
+}
+Check(dietPairs == 48, "all 48 audited creature/food combinations are covered");
+Check(creatures.Any(c => c.GetProperty("creature").GetString() == "Moose"), "Deep North moose coverage is present");
+Check(creatures.Any(c => c.GetProperty("creature").GetString() == "Bjorn_spiritcaller"), "Deep North summoned bear coverage is present");
+Check(FeedRules.Protects(true, true, 0, 5, "$item_smokepuff", new[] { "$item_vineberry", "$item_fiddleheadfern", "$item_smokepuff" }), "Asksvin protects Smokepuffs");
+Check(FeedRules.Protects(true, true, 0, 5, "$mod_customfeed", new[] { "$mod_customfeed" }), "runtime modded diet additions are protected");
+Check(!FeedRules.Protects(true, true, 0, 5, "$item_smokepuff", new[] { "$item_lingonberries" }), "diet replacement removes old protection");
+Check(!FeedRules.Protects(true, true, 0, 5, "$item_smokepuff", Array.Empty<string>()), "empty diet cannot protect food");
 
 if (args.Length < 1 || args.Length > 2) throw new ArgumentException("Supply the game path and optional installed AutoPicker DLL path.");
 using var game = AssemblyDefinition.ReadAssembly(Path.Combine(args[0], "valheim_Data", "Managed", "assembly_valheim.dll"));
@@ -49,4 +82,4 @@ var checkAndPick = autoPicker.MainModule.Types.Single(t => t.FullName == "AutoPi
 Check(checkAndPick.Body.Instructions.Any(i => i.Operand is MethodReference m && m.DeclaringType.Name == "Pickable" && m.Name == "Interact"), "installed AutoPicker harvests Pickables");
 Check(!checkAndPick.Body.Instructions.Any(i => i.Operand is MethodReference m && (m.Name == "AddItem" || m.Name == "Pickup")), "AutoPicker loop does not bypass ground pickup to collect inventory items");
 }
-Console.WriteLine($"PASS: {checks} feed-rule and installed-code compatibility checks. Gameplay not exercised.");
+Console.WriteLine($"PASS: {checks} feed-rule and installed-code compatibility checks, covering {dietPairs} food combinations across {creatures.Length} creature diets. Gameplay not exercised.");

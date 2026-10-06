@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <GamePath Condition="'$(GamePath)' == ''">E:\Games\SteamLibrary\steamapps\common\Valheim</GamePath>
+    <NoWarn>$(NoWarn);NU1702</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../AnimalFeedGuard.csproj" />
+    <!-- Test runtime only; production uses the game's HarmonyX in Unity/Mono. -->
+    <PackageReference Include="HarmonyX" Version="2.16.1" />
+    <Reference Include="assembly_valheim"><HintPath>$(GamePath)/valheim_Data/Managed/assembly_valheim.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(GamePath)/valheim_Data/Managed/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

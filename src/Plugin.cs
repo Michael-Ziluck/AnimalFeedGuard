@@ -4,32 +4,38 @@ using System.Linq;
 using System.Reflection.Emit;
 using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
 namespace AnimalFeedGuard;
 
-[BepInPlugin(Guid, "Animal Feed Guard", "2.0.0")]
+[BepInPlugin(Guid, "AnimalFeedGuard", "2.0.1")]
 public sealed class Plugin : BaseUnityPlugin
 {
 	public const string Guid = "com.ziluck.valheim.animalfeedguard";
 	private static ConfigEntry<bool> protectionEnabled = null!;
 	private static ConfigEntry<float> radius = null!;
+	private static ConfigEntry<bool> diagnosticLogging = null!;
+	private static ManualLogSource log = null!;
+	private static readonly Dictionary<(string Food, bool Blocked), double> decisions = new();
 	private Harmony? harmony;
 	private static int cachedFrame = -1;
 	private static readonly List<FeedingAnimal> animals = new();
 
 	private readonly struct FeedingAnimal
 	{
-		internal readonly Vector3 Position;
-		internal readonly List<ItemDrop> Foods;
-		internal FeedingAnimal(Vector3 position, List<ItemDrop> foods) { Position = position; Foods = foods; }
+		internal readonly Character Character;
+		internal readonly MonsterAI AI;
+		internal FeedingAnimal(Character character, MonsterAI ai) { Character = character; AI = ai; }
 	}
 
 	private void Awake()
 	{
+		log = Logger;
 		protectionEnabled = Config.Bind("General", "Enabled", true, "Leave edible animal feed on the ground near tamed animals during automatic pickup. Manual pickup is unaffected.");
-		radius = Config.Bind("General", "Protection Radius", 5f, new ConfigDescription("Maximum distance in metres between the dropped item and a living tamed animal that can eat it. 0 disables protection. Includes animals that are already fed. Uses full 3D distance, without a line-of-sight requirement.", new AcceptableValueRange<float>(0f, 50f)));
+		radius = Config.Bind("General", "Protection Radius", 5f, new ConfigDescription("Maximum distance in metres from the dropped item to the nearest point on a living tamed animal's body collider (or its origin if no active collider is available). 0 disables protection. Includes animals that are already fed. Uses full 3D distance, without a line-of-sight requirement.", new AcceptableValueRange<float>(0f, 50f)));
+		diagnosticLogging = Config.Bind("Diagnostics", "Log Pickup Decisions", false, "Log automatic pickup decisions and the nearest diet-matching creature's distance and tame state. Useful for testing pickup conflicts; messages for the same food and outcome are limited to once every five seconds.");
 		try
 		{
 			harmony = new Harmony(Guid);
@@ -48,6 +54,7 @@ public sealed class Plugin : BaseUnityPlugin
 		harmony?.UnpatchSelf();
 		animals.Clear();
 		cachedFrame = -1;
+		decisions.Clear();
 	}
 
 	// Restrict only the automatic pickup path. Do not change ItemDrop flags,
@@ -56,21 +63,73 @@ public sealed class Plugin : BaseUnityPlugin
 	{
 		if (!item || !item.m_autoPickup) return false;
 		if (!protectionEnabled.Value || radius.Value <= 0) return true;
-		string? food = item.m_itemData?.m_shared?.m_name;
-		if (string.IsNullOrEmpty(food)) return true;
+		string food = item.m_itemData?.m_shared?.m_name ?? string.Empty;
+		if (food.Length == 0) return true;
 		RefreshAnimals();
 		Vector3 position = item.transform.position;
+		string? nearest = null;
+		float nearestDistance = float.PositiveInfinity;
+		bool diagnostics = diagnosticLogging.Value;
 		foreach (FeedingAnimal animal in animals)
 		{
-			if (!FeedRules.WithinRadius((position - animal.Position).sqrMagnitude, radius.Value)) continue;
-			foreach (ItemDrop candidate in animal.Foods)
+			Character character = animal.Character;
+			MonsterAI ai = animal.AI;
+			if (!character || !ai || ai.m_consumeItems == null) continue;
+			bool alive = !character.IsDead();
+			bool tamed = IsTamed(character);
+			if (!diagnostics && (!alive || !tamed)) continue;
+			float squaredDistance = DistanceSquared(character, position);
+			if (FeedRules.Protects(alive, tamed, squaredDistance, radius.Value, food, FoodNames(ai.m_consumeItems)))
 			{
-				// Matches MonsterAI.CanConsume's shared-name comparison, including
-				// runtime changes to the animal's consume list made by other mods.
-				if (candidate && FeedRules.SameFood(food, candidate.m_itemData?.m_shared?.m_name)) return false;
+				if (diagnostics) Report(food, true, Describe(character, squaredDistance, position, alive, tamed));
+				return false;
+			}
+			if (diagnostics && squaredDistance < nearestDistance && FoodNames(ai.m_consumeItems).Any(candidate => FeedRules.SameFood(food, candidate)))
+			{
+				nearestDistance = squaredDistance;
+				nearest = Describe(character, squaredDistance, position, alive, tamed);
 			}
 		}
+		if (diagnostics) Report(food, false, nearest ?? "no loaded creature has this food in its diet");
 		return true;
+	}
+
+	internal static IEnumerable<string?> FoodNames(List<ItemDrop> foods)
+	{
+		// Use the live consume list, including replacements made by other mods.
+		// The shared-name comparison is the one used by MonsterAI.CanConsume.
+		foreach (ItemDrop candidate in foods)
+			if (candidate) yield return candidate.m_itemData?.m_shared?.m_name;
+	}
+
+	internal static bool IsTamed(Character character)
+	{
+		// Character.IsTamed caches remote state for a second and stops refreshing
+		// on becoming the owner. Read the synchronized flag for ownership handoffs.
+		ZNetView view = character.GetComponent<ZNetView>();
+		return view && view.IsValid()
+			? view.GetZDO().GetBool(ZDOVars.s_tamed, character.IsTamed())
+			: character.IsTamed();
+	}
+
+	internal static float DistanceSquared(Character character, Vector3 itemPosition)
+	{
+		Collider body = character.GetCollider();
+		Vector3 closest = body && body.enabled && body.gameObject.activeInHierarchy
+			? body.ClosestPoint(itemPosition) : character.transform.position;
+		return (itemPosition - closest).sqrMagnitude;
+	}
+
+	private static string Describe(Character character, float squaredDistance, Vector3 itemPosition, bool alive, bool tamed) =>
+		$"{Utils.GetPrefabName(character.gameObject)}: body distance {Math.Sqrt(squaredDistance):F2}m, origin distance {Vector3.Distance(itemPosition, character.transform.position):F2}m, alive={alive}, tamed={tamed}";
+
+	private static void Report(string food, bool blocked, string detail)
+	{
+		double now = Time.timeAsDouble;
+		var key = (food, blocked);
+		if (decisions.TryGetValue(key, out double previous) && now - previous < 5) return;
+		decisions[key] = now;
+		log.LogInfo($"Automatic pickup {(blocked ? "blocked" : "allowed")} for {food}; protection radius {radius.Value:F2}m; {detail}.");
 	}
 
 	private static void RefreshAnimals()
@@ -80,11 +139,12 @@ public sealed class Plugin : BaseUnityPlugin
 		animals.Clear();
 		foreach (Character character in Character.GetAllCharacters())
 		{
-			if (!character || character.IsDead() || !character.IsTamed()) continue;
+			if (!character) continue;
 			MonsterAI ai = character.GetComponent<MonsterAI>();
-			if (!ai || ai.m_consumeItems == null || ai.m_consumeItems.Count == 0) continue;
-			animals.Add(new FeedingAnimal(character.transform.position, ai.m_consumeItems));
+			if (ai) animals.Add(new FeedingAnimal(character, ai));
 		}
+		// Only component discovery is cached. Tameness, life, position, and diet
+		// are rechecked for each item, so a stale snapshot cannot allow pickup.
 	}
 
 	[HarmonyPatch(typeof(Player), "AutoPickup")]

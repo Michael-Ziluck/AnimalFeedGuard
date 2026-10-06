@@ -13,6 +13,8 @@ try {
     if ($AutoPickerPath) { $checkArgs += $AutoPickerPath }
     & dotnet @checkArgs
     if ($LASTEXITCODE -ne 0) { throw 'Checks failed' }
+    dotnet run --project tests/patches -c Release "-p:GamePath=$GamePath" -- $GamePath
+    if ($LASTEXITCODE -ne 0) { throw 'Game patch checks failed' }
     & (Join-Path $PSScriptRoot 'Verify-References.ps1') -GamePath $GamePath -PluginPath (Join-Path $root 'bin/Release/net48/AnimalFeedGuard.dll')
     & (Join-Path $PSScriptRoot 'Package.ps1') -OutputDirectory $OutputDirectory
 } finally { Pop-Location }

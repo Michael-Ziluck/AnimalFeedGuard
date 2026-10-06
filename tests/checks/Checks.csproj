@@ -8,5 +8,6 @@
   <ItemGroup>
     <Compile Include="../../src/FeedRules.cs" Link="FeedRules.cs" />
     <PackageReference Include="Mono.Cecil" Version="0.11.6" />
+    <None Update="creature-foods.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

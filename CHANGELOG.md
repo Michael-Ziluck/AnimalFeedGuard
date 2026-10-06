@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.1
+
+- Measure feed protection from the animal's body collider instead of its origin, with an origin fallback.
+- Read synchronized tame state through ownership changes and recheck live creature state and diet for each item.
+- Add optional, rate-limited pickup diagnostics.
+- Audit all installed 1.0.16 feeding prefabs, including Asksvin Smokepuffs and Deep North creatures.
+- Add regression coverage for all 48 creature/food pairs and actual pickup-transpiler IL.
+- Prepare a test ZIP; live regression testing remains pending.
+
 ## 2.0.0
 
 - Formally target Valheim 1.0; compiled and checked against 1.0.16.
